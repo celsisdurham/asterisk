@@ -1,0 +1,53 @@
+; Copy to /etc/asterisk/pjsip.d/50-voipms.conf and replace USERNAME, SECRET, PO_HOST, PO_NET.
+;   sudo install -m 600 -o root -g root voipms.local.conf /etc/asterisk/pjsip.d/50-voipms.conf
+;   sudo asterisk -rx "pjsip reload"
+;
+; Assumes a [transport-udp] is already defined elsewhere in pjsip.
+;
+; PO_NET: VoIP.ms signaling range for the PoP (see wiki "Servers", or use
+;         "pjsip set logger on" and match the IP that sends you INVITEs).
+
+[voipms-auth]
+type=auth
+auth_type=userpass
+username=USERNAME
+password=SECRET
+
+[voipms-reg]
+type=registration
+transport=transport-udp
+outbound_auth=voipms-auth
+client_uri=sip:USERNAME@PO_HOST:5060
+server_uri=sip:PO_HOST:5060
+endpoint=voipms
+line=yes
+retry_interval=60
+expiration=120
+
+[voipms-aor]
+type=aor
+max_contacts=1
+remove_existing=yes
+qualify_frequency=60
+
+[voipms]
+type=endpoint
+transport=transport-udp
+context=from-voipms
+disallow=all
+allow=ulaw,alaw
+auth=voipms-auth
+outbound_auth=voipms-auth
+aors=voipms-aor
+from_user=USERNAME
+from_domain=PO_HOST
+direct_media=no
+rtp_symmetric=yes
+force_rport=yes
+rewrite_contact=yes
+dtmf_mode=rfc4733
+
+[voipms-identify]
+type=identify
+endpoint=voipms
+match=PO_NET

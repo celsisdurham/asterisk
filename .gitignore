@@ -40,3 +40,9 @@ tests/CI/output
 .develvars
 .devcontainer/
 .claude/
+
+# Local VoIP provider credentials (do not commit)
+contrib/asterisk-config/voipms.local.conf
+**/*voipms*.secret.conf
+docker/asterisk-config/pjsip.d/50-voipms.local.conf
+docker/.env

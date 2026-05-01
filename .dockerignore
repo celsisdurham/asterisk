@@ -1,0 +1,14 @@
+# Keep docker build context small and avoid tar "file changed as we read it"
+.git
+**/*.[oa]
+**/.libs
+core/build
+menuselect.makeopts
+out/
+aclocal.m4
+autom4te.cache
+config.log
+config.status
+.lastclean
+*.pyc
+asterisk-ubuntu-*.tar.gz

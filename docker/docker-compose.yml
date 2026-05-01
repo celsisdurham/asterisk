@@ -1,0 +1,37 @@
+# Run Asterisk in Docker (Linux). VoIP and RTP work best with host network mode.
+#
+# Quick start (from the repository root):
+#   cp docker/.env.example docker/.env   # then fill in your credentials
+#   docker compose -f docker/docker-compose.yml build
+#   docker compose -f docker/docker-compose.yml up
+#
+# Credentials and public IP come from docker/.env (gitignored).
+# VoIP.ms PJSIP config lives in ./docker/asterisk-config/ (bind-mounted below).
+#
+# macOS/Windows: host network is not available; use published ports and extra RTP tuning
+# (see docs/docker-asterisk.md).
+
+services:
+  asterisk:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: asterisk-voice:local
+    init: true
+    network_mode: host
+    restart: unless-stopped
+    env_file: .env          # docker/.env — gitignored; copy from .env.example and fill in
+    environment:
+      - VOIPMS_USERNAME
+      - VOIPMS_PASSWORD
+      - VOIPMS_HOST
+      - VOIPMS_NET
+      - ASTERISK_PUBLIC_IP
+    volumes:
+      - ./asterisk-config/pjsip.d:/etc/asterisk/pjsip.d.tpl:ro
+      - ./asterisk-config/extensions.d:/etc/asterisk/extensions.d:ro
+    # If you prefer not to use host network (not recommended for production SIP on Linux),
+    # comment network_mode and uncomment the ports below, then fix rtp.conf
+    # ports:
+    #   - "5060:5060/udp"
+    #   - "10000-20000:10000-20000/udp"

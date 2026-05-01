@@ -91,6 +91,10 @@ to install the necessary components. Note that this will install all dependencie
 for every functionality of Asterisk. After running the script, you will need
 to rerun `./configure`.
 
+   On **Ubuntu LTS**, optional host notes (firewall, systemd, moving a build to Ubuntu)
+   are in [docs/ubuntu-asterisk.md](docs/ubuntu-asterisk.md). To run in **Docker** on Linux,
+   see [docs/docker-asterisk.md](docs/docker-asterisk.md).
+
 3. Run `make menuselect`<br>
 This is needed if you want to select the modules that will be compiled and to
 check dependencies for various optional modules.
