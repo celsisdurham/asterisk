@@ -1,48 +1,8 @@
-# git ls-files --others --exclude-from=.git/info/exclude
-# Lines that start with '#' are comments.
-# For a project mostly in C, the following would be a good set of
-# exclude patterns (uncomment them if you want to use them):
-# *.[oa]
-# *~
-
-# See .gitignore in subdirectories for more ignored files
-
-*~
-*.[oadi]
-*.gz
-*.ii
-*.oo
-*.eo
+*.o
 *.so
-*.exports
-*.moduleinfo
-*.makeopts
-*.makedeps
-.lastclean
-/.pc
-aclocal.m4
-autom4te.cache
-config.log
-config.status
-defaults.h
-makeopts
-makeopts.embed_rules
-menuselect-tree
-*.sha1
+*.a
+*.la
+*.lo
 *.pyc
-*.gcno
-*.gcda
-latex
-doxygen.log
-out/
-*.orig
-tests/CI/output
-.develvars
-.devcontainer/
-.claude/
-
-# Local VoIP provider credentials (do not commit)
-contrib/asterisk-config/voipms.local.conf
-**/*voipms*.secret.conf
-docker/asterisk-config/pjsip.d/50-voipms.local.conf
-docker/.env
+__pycache__/
+third-party/

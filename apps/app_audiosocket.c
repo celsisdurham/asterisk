@@ -89,7 +89,7 @@ static int audiosocket_exec(struct ast_channel *chan, const char *data)
 
 	int s = 0;
 	uuid_t uu;
-
+	char generated_uuid[37];
 
 	chanName = ast_channel_name(chan);
 
@@ -97,10 +97,10 @@ static int audiosocket_exec(struct ast_channel *chan, const char *data)
 	parse = ast_strdupa(data);
 	AST_STANDARD_APP_ARGS(args, parse);
 	if (ast_strlen_zero(args.idStr)) {
-		ast_log(LOG_ERROR, "UUID is required\n");
-		return -1;
-	}
-	if (uuid_parse(args.idStr, uu)) {
+		uuid_generate(uu);
+		uuid_unparse(uu, generated_uuid);
+		args.idStr = generated_uuid;
+	} else if (uuid_parse(args.idStr, uu)) {
 		ast_log(LOG_ERROR, "Failed to parse UUID '%s'\n", args.idStr);
 		return -1;
 	}
